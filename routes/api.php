@@ -7,6 +7,7 @@ use App\Http\Controllers\Getway\Paypal\PaypalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\socialAuthController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UsersContoller;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -70,6 +71,13 @@ Route::get('/auth/google/callback', [socialAuthController::class, 'handleCallbac
         Route::delete('/category/{id}', 'destroy');
     });
 
+    Route::middleware('checkProductManager')->controller(SubCategoryController::class)->group(function () {
+
+        Route::post('/sub-category/search', 'search');
+        Route::post('/sub-category/edit/{id}', 'edit');
+        Route::post('/sub-category/add', 'store');
+        Route::delete('/sub-category/{id}', 'destroy');
+    });
     Route::middleware('checkProductManager')->controller(ProductController::class)->group(function () {
 
 
@@ -88,9 +96,9 @@ Route::get('/auth/google/callback', [socialAuthController::class, 'handleCallbac
 
     Route::group(['prefix' => 'wishlist'], function () {
         Route::get('/', [WishlistController::class, 'index']);
-        Route::get('//{id}', [WishlistController::class, 'show']);
+        Route::get('/{id}', [WishlistController::class, 'show']);
         Route::post('/', [WishlistController::class, 'store']);
-        Route::delete('//{id}', [WishlistController::class, 'destroy']);
+        Route::delete('/{id}', [WishlistController::class, 'destroy']);
         Route::post('/move-to-cart/{id}', [WishlistController::class, 'moveToCart']);
     });
     Route::group(['prefix' => 'paypal'], function () {
