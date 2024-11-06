@@ -76,6 +76,7 @@ Route::get('/auth/google/callback', [socialAuthController::class, 'handleCallbac
         Route::post('/sub-category/search', 'search');
         Route::post('/sub-category/edit/{id}', 'edit');
         Route::post('/sub-category/add', 'store');
+        Route::get('/sub-category/{id}', 'show');
         Route::delete('/sub-category/{id}', 'destroy');
     });
     Route::middleware('checkProductManager')->controller(ProductController::class)->group(function () {
